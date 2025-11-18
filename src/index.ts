@@ -92,35 +92,23 @@ function getStyler(key: string): Styler {
     if (cache[key]) return cache[key];
 
     if (!supported) {
-        const identity: Styler = (t) => t;
-        cache[key] = identity;
-        return identity;
+        const id: Styler = (t) => t;
+        cache[key] = id;
+        return id;
     }
 
     const isBg = key.startsWith("bg");
     const str = isBg ? key.slice(2) : key;
 
-    let hexString = str;
-    const len = hexString.length;
+    let hexStr = str;
+    const len = hexStr.length;
 
-    let valid = true;
-    for (let i = 0; i < len; i++) {
-        const c = hexString.charCodeAt(i);
-        const isDigit = c >= 48 && c <= 57; // 0–9
-        const isLower = c >= 97 && c <= 102; // a–f
-        const isUpper = c >= 65 && c <= 70; // A–F
-        if (!isDigit && !isLower && !isUpper) {
-            valid = false;
-            break;
-        }
-    }
+    const valid = /^[0-9a-fA-F]{3}$/.test(str) || /^[0-9a-f-A-F]{6}$/.test(str);
 
     if (valid && (len === 3 || len === 6)) {
-        if (len === 3) {
-            hexString = hexString[0] + hexString[0] + hexString[1] + hexString[1] + hexString[2] + hexString[2];
-        }
+        if (len === 3) hexStr = hexStr.replace(/(.)/g, "$1$1");
 
-        const hex = parseInt(hexString, 16);
+        const hex = parseInt(hexStr, 16);
         const r = (hex >> 16) & 255;
         const g = (hex >> 8) & 255;
         const b = hex & 255;
@@ -131,9 +119,9 @@ function getStyler(key: string): Styler {
         return fn;
     }
 
-    const identity: Styler = (t) => t;
-    cache[key] = identity;
-    return identity;
+    const id: Styler = (t) => t;
+    cache[key] = id;
+    return id;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

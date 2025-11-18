@@ -1,24 +1,32 @@
 {
     "name": "anso",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "The tiniest, fastest, dynamic CLI color library for Node.js.",
     "type": "module",
     "private": false,
     "author": "ganemedelabs",
     "license": "MIT",
-    "main": "dist/index.js",
+    "main": "dist/index.cjs",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
+            "browser": {
+                "types": "./dist/index.browser.d.ts",
+                "default": "./dist/index.browser.js"
+            },
             "import": "./dist/index.js",
-            "types": "./dist/index.d.ts"
+            "require": "./dist/index.cjs"
         }
     },
     "typesVersions": {
         "*": {
             "index.d.ts": [
                 "dist/index.d.ts"
+            ],
+            "index.browser.d.ts": [
+                "index.browser.d.ts"
             ]
         }
     },
@@ -32,7 +40,7 @@
     },
     "homepage": "https://github.com/ganemedelabs/anso#readme",
     "scripts": {
-        "build": "tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --minify --outdir=dist --format=esm",
+        "build": "tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --minify --outfile=dist/index.js --format=esm && esbuild src/index.ts --bundle --minify --outfile=dist/index.cjs --format=cjs && esbuild src/index.browser.ts --bundle --minify --outfile=dist/index.browser.js --format=esm",
         "test": "jest",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",

@@ -27,6 +27,7 @@ Add color and style to your terminal output with zero dependencies, lightning-fa
 - Dynamic hex color support (`#fff`, `#ff0000`)
 - Auto-detects and disables colors in unsupported terminals
 - Works seamlessly on Windows, Linux, macOS
+- Supports ESM, CJS, and browser environments
 
 ## 🔧 Installation
 
